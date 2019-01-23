@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\TextPost;
+use App\Models\VideoPost;
+use App\User;
 
 class CommentController extends Controller
 {
@@ -13,12 +15,15 @@ class CommentController extends Controller
         $comment = new Comment;
         $comment->body = $request->get('comment_body');
         $comment->user()->associate($request->user());
-        $post = TextPost::find($request->get('post_id'));
-
-        $post->comments()->save($comment);
+        $video_post = VideoPost::find($request->get('post_id'));
+        $text_post = TextPost::find($request->get('post_id'));
+        $video_post->comments()->save($comment);
+        $text_post->comments()->save($comment);
 
         return back();
     }
+
+
 
     public function replyStore(Request $request)
     {
@@ -26,8 +31,12 @@ class CommentController extends Controller
         $reply->body = $request->get('comment_body');
         $reply->user()->associate($request->user());
         $reply->parent_id = $request->get('comment_id');
-        $post = Post::find($request->get('post_id'));
-        $post->comments()->save($reply);
+        $video_post = VideoPost::find($request->get('post_id'));
+        $text_post = TextPost::find($request->get('post_id'));
+
+        $video_post->comments()->save($reply);
+        $text_post->comments()->save($reply);
+
         return back();
     }
 

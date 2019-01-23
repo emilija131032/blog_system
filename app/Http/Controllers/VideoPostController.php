@@ -15,7 +15,8 @@ class VideoPostController extends Controller
     public function create()
     {
         $video_posts = VideoPost::all();
-        return view('post', compact('text_posts'));
+
+        return response()->json($video_posts, 200);
     }
 
     public function store(Request $request)
@@ -26,7 +27,10 @@ class VideoPostController extends Controller
 
         $post->save();
 
-        return redirect('posts');
+        return response([
+            'status' => 'success',
+            'data' => $post,
+        ], 200);
 
     }
 
@@ -38,7 +42,10 @@ class VideoPostController extends Controller
 
         $post->save();
 
-        return redirect('posts');
+        return response([
+            'status' => 'success',
+            'data' => $post,
+        ], 200);
 
     }
 

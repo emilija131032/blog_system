@@ -14,7 +14,8 @@ class TextPostController extends Controller
     public function create()
     {
         $text_posts = TextPost::all();
-        return view('post', compact('text_posts'));
+
+        return response()->json($text_posts, 200);
     }
 
     public function store(Request $request)
@@ -25,7 +26,10 @@ class TextPostController extends Controller
 
         $post->save();
 
-        return redirect('posts');
+        return response([
+            'status' => 'success',
+            'data' => $post,
+        ], 200);
 
     }
 
@@ -37,7 +41,10 @@ class TextPostController extends Controller
 
         $post->save();
 
-        return redirect('posts');
+        return response([
+            'status' => 'success',
+            'data' => $post,
+        ], 200);
 
     }
 

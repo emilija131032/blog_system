@@ -1,8 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\User;
 
 class Comment extends Model
 {
@@ -11,9 +12,26 @@ class Comment extends Model
         'commentable_id',
         'commentable_type'
     ];
+
+    public function commentable()
+    {
+        return $this->morphTo();
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function text_post()
+    {
+        return $this->belongsTo('App\Models\TextPost');
+    }
+
+
+    public function video_post()
+    {
+        return $this->belongsTo('App\Models\VideoPost');
     }
 
     public function replies()
