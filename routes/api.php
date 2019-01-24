@@ -30,5 +30,8 @@ Route::get('show-text-post/{id}', 'TextPostController@show');
 
 //Comments
 
-Route::post('add-comment', 'CommentController@store');
+Route::post('add-comment/{id}', 'CommentController@store');
 Route::post('add-reply', 'CommentController@replyStore');
+
+
+Route::post('/add-post', 'PostController@store')->name('add-post');

@@ -6,38 +6,31 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\TextPost;
 use App\Models\VideoPost;
-use App\User;
 
 class CommentController extends Controller
 {
-    public function store(Request $request)
-    {
-        $comment = new Comment;
-        $comment->body = $request->get('comment_body');
-        $comment->user()->associate($request->user());
-        $video_post = VideoPost::find($request->get('post_id'));
-        $text_post = TextPost::find($request->get('post_id'));
-        $video_post->comments()->save($comment);
-        $text_post->comments()->save($comment);
+    /**
+     * @param  int $post_id
+     * @param  \Illuminate\Http\Request $request
+     */
 
-        return back();
+    public function store($post_id, Request $request)
+    {
+        $post = TextPost::find($post_id);
+        $body = $request->get('body');
+        $user = $request->get('user_id');
+
+        $post->addComment($body, $user);
     }
 
-
-
-    public function replyStore(Request $request)
+    public function storeVideoComment($video_id, Request $request)
     {
-        $reply = new Comment();
-        $reply->body = $request->get('comment_body');
-        $reply->user()->associate($request->user());
-        $reply->parent_id = $request->get('comment_id');
-        $video_post = VideoPost::find($request->get('post_id'));
-        $text_post = TextPost::find($request->get('post_id'));
+        $post = VideoPost::find($video_id);
+        $body = $request->get('body');
+        $user = $request->get('user_id');
 
-        $video_post->comments()->save($reply);
-        $text_post->comments()->save($reply);
-
-        return back();
+        $post->addComment($body, $user);
     }
+
 
 }

@@ -6,32 +6,21 @@ use Illuminate\Http\Request;
 use App\Models\TextPost;
 class TextPostController extends Controller
 {
-    public function __construct()
-    {
-        return $this->middleware('auth');
-    }
-
     public function create()
     {
-        $text_posts = TextPost::all();
 
-        return response()->json($text_posts, 200);
     }
 
-    public function store(Request $request)
+        public function store(Request $request)
     {
-        $post = new TextPost();
-        $post->title = $request->get('title');
-        $post->body = $request->get('body');
+
+        $post = TextPost::create($request->all());
 
         $post->save();
 
-        return response([
-            'status' => 'success',
-            'data' => $post,
-        ], 200);
-
+        return redirect('/home');
     }
+
 
     public function update(Request $request, $id)
     {

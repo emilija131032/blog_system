@@ -18,10 +18,15 @@ class VideoPostController extends Controller
 
         return response()->json($video_posts, 200);
     }
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
     public function store(Request $request)
     {
         $post = new VideoPost();
+
         $post->title = $request->get('title');
         $post->url = $request->get('url');
 
